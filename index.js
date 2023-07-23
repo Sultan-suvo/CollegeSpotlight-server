@@ -52,6 +52,17 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/admissionCollege/:email', async (req, res) => {
+      const email = req.params.email;
+      try {
+        const result = await admissionCollection.find({ candidateEmail: email }).toArray();
+        res.send(result);
+      } catch (error) {
+        console.error('Error retrieving data:', error);
+        res.status(500).send('Error retrieving data from the server.');
+      }
+    });
+
     app.post('/admissionCollege', async (req, res) => {
       const item = req.body;
       const result = await admissionCollection.insertOne(item)
