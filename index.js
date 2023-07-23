@@ -31,6 +31,7 @@ async function run() {
     const galleryCollegesCollection = client.db("CollegeSpotlight").collection("galleryCollege");
     const researchPaperCollection = client.db("CollegeSpotlight").collection("researchPaper");
     const admissionCollection = client.db("CollegeSpotlight").collection("admissionCollege");
+    const reviewsCollection = client.db("CollegeSpotlight").collection("reviews");
 
     app.get('/topColleges', async (req, res) => {
       const result = await topCollegesCollection.find().toArray();
@@ -63,11 +64,33 @@ async function run() {
       }
     });
 
+    app.get('/reviews', async (req, res) => {
+      try {
+        const reviews = await reviewsCollection.find().toArray();
+        res.json(reviews);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+        res.status(500).json({ error: 'Error fetching reviews' });
+      }
+    });
+
     app.post('/admissionCollege', async (req, res) => {
       const item = req.body;
       const result = await admissionCollection.insertOne(item)
       res.send(result)
     })
+
+    app.post('/reviews', async (req, res) => {
+      const reviewData = req.body;
+    
+      try {
+        const result = await reviewsCollection.insertOne(reviewData);
+        res.status(200).json(result);
+      } catch (error) {
+        console.error('Error saving review:', error);
+        res.status(500).json({ error: 'Error saving review' });
+      }
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
