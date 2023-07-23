@@ -30,6 +30,7 @@ async function run() {
     const allCollegesCollection = client.db("CollegeSpotlight").collection("allColleges");
     const galleryCollegesCollection = client.db("CollegeSpotlight").collection("galleryCollege");
     const researchPaperCollection = client.db("CollegeSpotlight").collection("researchPaper");
+    const admissionCollection = client.db("CollegeSpotlight").collection("admissionCollege");
 
     app.get('/topColleges', async (req, res) => {
       const result = await topCollegesCollection.find().toArray();
@@ -48,6 +49,12 @@ async function run() {
 
     app.get('/researchPaper', async (req, res) => {
       const result = await researchPaperCollection.find().toArray();
+      res.send(result)
+    })
+
+    app.post('/admissionCollege', async (req, res) => {
+      const item = req.body;
+      const result = await admissionCollection.insertOne(item)
       res.send(result)
     })
 
