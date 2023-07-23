@@ -27,9 +27,21 @@ async function run() {
     // await client.connect();
 
     const topCollegesCollection = client.db("CollegeSpotlight").collection("TopColleges");
+    const allCollegesCollection = client.db("CollegeSpotlight").collection("allColleges");
+    const galleryCollegesCollection = client.db("CollegeSpotlight").collection("galleryCollege");
 
     app.get('/topColleges', async (req, res) => {
       const result = await topCollegesCollection.find().toArray();
+      res.send(result)
+    })
+
+    app.get('/allColleges', async (req, res) => {
+      const result = await allCollegesCollection.find().toArray();
+      res.send(result)
+    })
+
+    app.get('/galleryColleges', async (req, res) => {
+      const result = await galleryCollegesCollection.find().toArray();
       res.send(result)
     })
 
