@@ -29,6 +29,7 @@ async function run() {
     const topCollegesCollection = client.db("CollegeSpotlight").collection("TopColleges");
     const allCollegesCollection = client.db("CollegeSpotlight").collection("allColleges");
     const galleryCollegesCollection = client.db("CollegeSpotlight").collection("galleryCollege");
+    const researchPaperCollection = client.db("CollegeSpotlight").collection("researchPaper");
 
     app.get('/topColleges', async (req, res) => {
       const result = await topCollegesCollection.find().toArray();
@@ -42,6 +43,11 @@ async function run() {
 
     app.get('/galleryColleges', async (req, res) => {
       const result = await galleryCollegesCollection.find().toArray();
+      res.send(result)
+    })
+
+    app.get('/researchPaper', async (req, res) => {
+      const result = await researchPaperCollection.find().toArray();
       res.send(result)
     })
 
